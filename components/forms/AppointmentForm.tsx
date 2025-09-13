@@ -46,9 +46,7 @@ export const AppointmentForm = ({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
       primaryPhysician: appointment?.primaryPhysician || "",
-      schedule: appointment
-        ? new Date(appointment.schedule)
-        : new Date(),
+      schedule: appointment ? new Date(appointment.schedule) : new Date(),
       reason: appointment?.reason || "",
       note: appointment?.note || "",
       cancellationReason: appointment?.cancellationReason || "",
@@ -82,6 +80,8 @@ export const AppointmentForm = ({
           reason: values.reason!,
           status,
           note: values.note,
+          // 👇 if createAppointment also requires timezone, add:
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         });
 
         if (newAppointment) {
@@ -101,6 +101,7 @@ export const AppointmentForm = ({
             cancellationReason: values.cancellationReason,
           },
           type,
+          // ✅ required field added
           timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         });
 
@@ -216,3 +217,4 @@ export const AppointmentForm = ({
     </Form>
   );
 };
+
